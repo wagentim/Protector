@@ -1,5 +1,6 @@
 package de.wagentim.protector.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -108,45 +109,9 @@ public class ProtectorController
 		return record;
 	}
 
-	public int getFocusedElement()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void setInputConfigFile(String currFilePath)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void setSelectedRecord(Record record)
 	{
 		selectedRecord = record;
-	}
-
-	public void deleteParameters(int[] selectedItems, String text)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void saveFile(String targetFilePath)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	public String[] getAllBlocks()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void copyParameters(int[] selectedItems)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void recordItemChanged(CellIndex cell, String newValue)
@@ -193,6 +158,25 @@ public class ProtectorController
 		}
 		
 		return items.get(record.getId());
+	}
+
+	public RecordItem getNewRecordItem()
+	{
+		RecordItem recordItem = new RecordItem(selectedRecord.getId(), IDManager.INSTANCE().getRandomInteger(), IProtectorConstants.TXT_DEFAULT_RECORD_ITEM_NAME, IProtectorConstants.TXT_DEFAULT_RECORD_ITEM_NAME);
+		dbController.insertNewItem(recordItem.getRecordId(), recordItem.getItemId(), recordItem.getKey(), recordItem.getValue());
+		List<RecordItem> recordItems = items.get(recordItem.getRecordId());
+		
+		if( null == recordItems )
+		{
+			recordItems = new ArrayList<RecordItem>();
+			items.put(recordItem.getRecordId(), recordItems);
+		}
+		
+		recordItems.add(recordItem);
+		
+		logger.info("Add New Record Item: {}", recordItem.toString());
+		
+		return recordItem;
 	}
 	
 }

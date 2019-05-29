@@ -29,7 +29,7 @@ public class SearchTreeComponent extends AbstractComposite
 	private Tree recordTree;
 	private TreeItem root;
 	private TableComposite tableComposite;
-	private TreeListener tl;
+	private TreeListener treeListener;
 	private Menu rightClickMenu;
 	
 	public SearchTreeComponent(Composite parent, int style, ProtectorController controller, ImageRegister imageRegister)
@@ -57,10 +57,10 @@ public class SearchTreeComponent extends AbstractComposite
 		root.setText(IConstants.TXT_RECORD);
 		root.setImage(imageRegister.getImage(IImageConstants.IMAGE_ROOT));
 		
-		tl = new TreeListener(recordTree, controller);
-		recordTree.addMouseListener(tl);
-		recordTree.addKeyListener(tl);
-		recordTree.addSelectionListener(tl);
+		treeListener = new TreeListener(recordTree, controller);
+		recordTree.addMouseListener(treeListener);
+		recordTree.addKeyListener(treeListener);
+		recordTree.addSelectionListener(treeListener);
 	}
 	
 	private void createRightMenu(Control control, SelectionListener listener)
@@ -164,19 +164,19 @@ public class SearchTreeComponent extends AbstractComposite
 			setTreeSelectedRecord(0);
 		}
 		
-		if( IProtectorActionType.ACTION_ADD_NEW_RECORD == type )
+		else if( IProtectorActionType.ACTION_ADD_NEW_RECORD == type )
 		{
 			Record record = (Record)content;
-			addTreeItem(record, root, recordTree.indexOf(recordTree.getSelection()[0]) + 1);
+			addTreeItem(record, root, recordTree.indexOf(recordTree.getSelection()[0]));
 		}
 		
-		if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED )
+		else if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED )
 		{
 			boolean isEditable = (boolean)content;
 			
 			if(isEditable)
 			{
-				createRightMenu(recordTree, tl);
+				createRightMenu(recordTree, treeListener);
 			}
 			else
 			{

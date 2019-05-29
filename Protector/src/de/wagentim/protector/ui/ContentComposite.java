@@ -13,7 +13,6 @@ public class ContentComposite extends AbstractComposite
 	public ContentComposite(Composite composite, int style, ProtectorController controller, ImageRegister imageRegister)
 	{
 		super(composite, style, controller, imageRegister);
-
 		GridLayout layout = new GridLayout(1, false);
 		this.setLayout(layout);
 		GridData cgd = new GridData(GridData.FILL_HORIZONTAL);

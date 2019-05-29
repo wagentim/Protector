@@ -181,7 +181,7 @@ public class TableComposite extends AbstractComposite
 		ti.setBackground(tableBackgroudColor);
 	}
 	
-	private void resize()
+	public void resize()
 	{
 		for (TableColumn tc : table.getColumns())
 		{
@@ -225,12 +225,12 @@ public class TableComposite extends AbstractComposite
 			updateParameters(controller.getItems((Record)content));
 		}
 
-		if( type == IProtectorActionType.ACTION_DATA_LOADED )
+		else if( type == IProtectorActionType.ACTION_DATA_LOADED )
 		{
 			updateParameters(null);
 		}
 		
-		if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED)
+		else if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED)
 		{
 			boolean isEditable = (boolean)content;
 			
@@ -241,7 +241,18 @@ public class TableComposite extends AbstractComposite
 			else
 			{
 				table.setMenu(null);
+				
+				if( null != rightClickMenu )
+				{
+					rightClickMenu.dispose();
+				}
 			}
+		}
+		else if( type == IProtectorActionType.ACTION_ADD_NEW_RECORD_ITEM )
+		{
+			RecordItem ri = (RecordItem)content;
+			
+			addTableItem(ri);
 		}
 		
 	}

@@ -14,10 +14,12 @@ import org.eclipse.swt.widgets.ToolItem;
 import de.wagentim.common.IActionListener;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
+import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.IProtectorConstants;
 import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.InfoBlockWriter;
 import de.wagentim.protector.controller.ProtectorController;
+import de.wagentim.protector.entity.RecordItem;
 
 public class ProtectorMainScreen extends Composite implements IActionListener
 {
@@ -27,6 +29,7 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 	private final ImageRegister imageRegister;
 	private ToolItem editToolItem;
 	private ToolItem loadToolItem;
+	private ToolItem addRecordItem;
 	
 	public ProtectorMainScreen(Composite parent, int style, final ImageRegister imageRegister)
 	{
@@ -68,7 +71,7 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 		layout.marginTop = layout.marginLeft = layout.marginRight = layout.marginBottom = 0;
 		shell.setLayout(layout);
 		
-		ToolBar bar = new ToolBar(shell, SWT.NONE);
+		ToolBar bar = new ToolBar(shell, SWT.FLAT);
 		loadToolItem = new ToolItem(bar, SWT.PUSH);
 		loadToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_LOAD_OUTLINE));
 		loadToolItem.setText(IProtectorConstants.TXT_LOAD_RECORD_ITEM);
@@ -105,10 +108,32 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 				}
 			}
 		});
+		
+		new ToolItem(bar, SWT.SEPARATOR);
+		
+		addRecordItem = new ToolItem(bar, SWT.PUSH);
+		addRecordItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
+		addRecordItem.setText(IProtectorConstants.TXT_ADD_RECORD_ITEM);
+		addRecordItem.addSelectionListener(new SelectionAdapter()
+		{
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				RecordItem recordItem = controller.getNewRecordItem();
+				ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_ADD_NEW_RECORD_ITEM, recordItem);
+			}
+		});
+		addRecordItem.setEnabled(false);
 	}
 
 	@Override
 	public void receivedAction(int type, Object content)
 	{
+		if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED )
+		{
+			boolean isEditable = (boolean)content;
+			
+			addRecordItem.setEnabled(isEditable);
+		}
 	}
 }
