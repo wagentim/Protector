@@ -82,11 +82,11 @@ public class TreeListener extends CellEditingListener
 				Record cb = new Record(1, "");
 //				cb.setName(Constants.TXT_TEMP);
 				controller.addConfigBlock(cb);
-				ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_ADD_NEW_BLOCK, cb);
+				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_ADD_NEW_BLOCK, cb);
 			}
 			else if( text.contentEquals(IConstants.TXT_BTN_DELETE) )
 			{
-				ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_DELETE_BLOCK, getTree().getSelection()[0].getText());
+				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_DELETE_BLOCK, getTree().getSelection()[0].getText());
 			}
 			else if( text.contentEquals(IConstants.TXT_COPY) )
 			{
@@ -100,7 +100,7 @@ public class TreeListener extends CellEditingListener
 		else if(event.getSource() instanceof Tree)
 		{
 			Record record = (Record) getSelectedTreeItem().getData();
-			ProtectorActionManager.INSTANCE.sendAction(IProtectorActionType.ACTION_RECORD_SELECTED, record);
+			ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_RECORD_SELECTED, record);
 		}
 	}
 	
@@ -112,12 +112,12 @@ public class TreeListener extends CellEditingListener
 	
 	private void sendCopyMessage()
 	{
-		ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_COPY_BLOCK, null);
+		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_COPY_BLOCK, null);
 	}
 	
 	private void sendPasteMessage()
 	{
-		ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_PASTE_BLOCK, null);
+		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_PASTE_BLOCK, null);
 	}
 
 	@Override

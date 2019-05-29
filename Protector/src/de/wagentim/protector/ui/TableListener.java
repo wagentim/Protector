@@ -138,11 +138,11 @@ public class TableListener extends CellEditingListener
 			
 			if( text.contentEquals(IConstants.TXT_BTN_ADD) )
 			{
-				ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_MENU_ADD, IConstants.EMPTY_STRING);
+				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_MENU_ADD, IConstants.EMPTY_STRING);
 			}
 			else if( text.contentEquals(IConstants.TXT_BTN_DELETE) )
 			{
-				ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_MENU_DELETE, IConstants.EMPTY_STRING);
+				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_MENU_DELETE, IConstants.EMPTY_STRING);
 			}
 			else if( text.contentEquals(IConstants.TXT_COPY) )
 			{
@@ -158,12 +158,12 @@ public class TableListener extends CellEditingListener
 	
 	private void sendCopyMessage()
 	{
-		ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_COPY_PARAMETER, null);
+		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_COPY_PARAMETER, null);
 	}
 	
 	private void sendPasteMessage()
 	{
-		ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_PASTE_PARAMETER, null);
+		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_PASTE_PARAMETER, null);
 	}
 
 	@Override

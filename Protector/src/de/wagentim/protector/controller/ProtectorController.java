@@ -32,7 +32,7 @@ public class ProtectorController
 	{
 		records = dbController.getAllRecords();
 		items = dbController.getAllItems();
-		ProtectorActionManager.INSTANCE.sendAction(IProtectorActionType.ACTION_DATA_LOADED, records.values());
+		ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_DATA_LOADED, records.values());
 	}
 	
 	public String[] getItemNames()

@@ -7,10 +7,10 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 
+import de.wagentim.common.IActionListener;
 import de.wagentim.common.IConstants;
 import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.ProtectorActionManager;
-import de.etas.tef.production.help.IActionListener;
 
 public class InfoBlockWriter implements IActionListener
 {
@@ -31,7 +31,7 @@ public class InfoBlockWriter implements IActionListener
 		this.error = infoBlock.getDisplay().getSystemColor(SWT.COLOR_RED);
 		this.info = infoBlock.getDisplay().getSystemColor(SWT.COLOR_BLACK);
 		this.warning = infoBlock.getDisplay().getSystemColor(SWT.COLOR_BLUE);
-		ProtectorActionManager.INSTANCE.addActionListener(this);
+		ProtectorActionManager.actionManager.addActionListener(this);
 	}
 	
 	private void moveToLastLine()

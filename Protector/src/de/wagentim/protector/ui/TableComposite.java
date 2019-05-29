@@ -136,11 +136,11 @@ public class TableComposite extends AbstractComposite
 			@Override
 			public void widgetSelected(SelectionEvent event)
 			{
-				ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_PARAMETER_SELECTED, getTable().getSelectionIndex());
+				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_PARAMETER_SELECTED, getTable().getSelectionIndex());
 
 				String text = getTable().getItem(getTable().getSelectionIndex()).getText(1);
 					
-				ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_SOURCE_PARAMETER_SELECTED, text);
+				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_SOURCE_PARAMETER_SELECTED, text);
 			}
 			
 		});
@@ -329,7 +329,7 @@ public class TableComposite extends AbstractComposite
 	protected void saveAction(String targetFilePath)
 	{
 		controller.saveFile(targetFilePath);
-		ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_LOG_WRITE_INFO, "Source Write to: " + targetFilePath + " finished!");
+		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_LOG_WRITE_INFO, "Source Write to: " + targetFilePath + " finished!");
 	}
 	
 	@Override

@@ -72,7 +72,7 @@ public class SearchComposite extends AbstractComposite
 					cancelImage.setVisible(false);
 				}
 				
-				ProtectorActionManager.INSTANCE.sendAction(IConstants.ACTION_SET_SHOW_CONFIG_BLOCKS, text);
+				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_SET_SHOW_CONFIG_BLOCKS, text);
 			}
 		});
 		

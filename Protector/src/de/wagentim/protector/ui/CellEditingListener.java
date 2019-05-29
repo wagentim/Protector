@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
-import de.etas.tef.production.help.IActionListener;
+import de.wagentim.common.IActionListener;
 import de.wagentim.common.IConstants;
 import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.ProtectorController;
@@ -39,7 +39,7 @@ public abstract class CellEditingListener implements MouseListener, IActionListe
 		
 		editor = getNewEditor();
 		
-		ProtectorActionManager.INSTANCE.addActionListener(this);
+		ProtectorActionManager.actionManager.addActionListener(this);
 	}
 
 	protected Composite getComposite()

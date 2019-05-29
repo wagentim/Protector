@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-import de.etas.tef.production.help.IActionListener;
+import de.wagentim.common.IActionListener;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
 import de.wagentim.protector.common.IProtectorConstants;
@@ -37,7 +37,7 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 		initMainScreen(this);
 		initMainComponents(this);
 		
-		ProtectorActionManager.INSTANCE.addActionListener(this);
+		ProtectorActionManager.actionManager.addActionListener(this);
 	}
 	
 	private void initMainComponents(Composite shell)
