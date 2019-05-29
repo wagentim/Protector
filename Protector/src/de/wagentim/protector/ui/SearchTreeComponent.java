@@ -170,5 +170,23 @@ public class SearchTreeComponent extends AbstractComposite
 			addTreeItem(record, root, recordTree.indexOf(recordTree.getSelection()[0]) + 1);
 		}
 		
+		if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED )
+		{
+			boolean isEditable = (boolean)content;
+			
+			if(isEditable)
+			{
+				createRightMenu(recordTree, tl);
+			}
+			else
+			{
+				recordTree.setMenu(null);
+				
+				if(null != rightClickMenu)
+				{
+					rightClickMenu.dispose();
+				}
+			}
+		}
 	}
 }

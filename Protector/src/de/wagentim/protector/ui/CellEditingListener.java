@@ -82,9 +82,9 @@ public abstract class CellEditingListener implements MouseListener, KeyListener,
 	@Override
 	public void mouseDoubleClick(MouseEvent event)
 	{
-		boolean isEditingLocked = controller.isEditingLocked();
+		boolean isEditable = controller.isEditable();
 		
-		if(isEditingLocked)
+		if(!isEditable)
 		{
 			return;
 		}
@@ -186,7 +186,7 @@ public abstract class CellEditingListener implements MouseListener, KeyListener,
 	{
 		if( keyEvent.keyCode == SWT.SPACE )
 		{
-			boolean isEditingLocked = controller.isEditingLocked();
+			boolean isEditingLocked = controller.isEditable();
 			
 			if(isEditingLocked)
 			{

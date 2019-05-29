@@ -21,7 +21,7 @@ import de.wagentim.protector.entity.RecordItem;
 public class ProtectorController
 {
 	private final IDBController dbController;
-	private boolean isEditingBlocked = true;
+	private boolean isEditable = false;
 	private Record selectedRecord = null;
 	private RecordItem selectedRecordItem = null;
 	private Map<Integer, Record> records = Collections.emptyMap();
@@ -68,14 +68,15 @@ public class ProtectorController
 		IDManager.INSTANCE().addID(id);
 	}
 	
-	public boolean isEditingLocked()
+	public boolean isEditable()
 	{
-		return isEditingBlocked;
+		return isEditable;
 	}
 	
-	public void setEditingLocked()
+	public void setEditable()
 	{
-		isEditingBlocked = !isEditingBlocked;
+		isEditable = !isEditable;
+		ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_EDITING_STATUS_CHANGED, isEditable);
 	}
 	
 	public void setShowConfigBlocks(String text)

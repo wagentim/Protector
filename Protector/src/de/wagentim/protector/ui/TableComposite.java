@@ -1,9 +1,6 @@
 package de.wagentim.protector.ui;
 
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,11 +14,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -30,7 +25,6 @@ import de.wagentim.common.IConstants;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
 import de.wagentim.protector.common.IProtectorActionType;
-import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.ProtectorController;
 import de.wagentim.protector.entity.Record;
 import de.wagentim.protector.entity.RecordItem;
@@ -40,8 +34,8 @@ public class TableComposite extends AbstractComposite
 	private Table table;
 	protected Color tableBackgroudColor;
 	private Menu rightClickMenu;
-	
 	private SearchTreeComponent searchTree;
+	private TableListener tableListener;
 	
 	public TableComposite(Composite parent, int style, ProtectorController controller, ImageRegister imageRegister)
 	{
@@ -51,7 +45,6 @@ public class TableComposite extends AbstractComposite
 		this.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		initMainComposite(this, controller);
-		
 		tableBackgroudColor = parent.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
 	}
 	
@@ -78,7 +71,7 @@ public class TableComposite extends AbstractComposite
 		gd.heightHint = IConstants.HEIGHT_HINT;
 		table.setLayoutData(gd);
 		
-		TableListener tl = new TableListener(table, controller);
+		tableListener = new TableListener(table, controller);
 	    
 		for (int i = 0; i < 2; i++) 
 		{
@@ -87,30 +80,10 @@ public class TableComposite extends AbstractComposite
 			column.setWidth(150);
 		}
 		
-		table.addMouseListener(tl);
-		table.addKeyListener(tl);
-		table.addSelectionListener(tl);
+		table.addMouseListener(tableListener);
+		table.addKeyListener(tableListener);
+		table.addSelectionListener(tableListener);
 		sf.setWeights(new int[]{1, 2});
-	}
-	
-	private void btnAddAction()
-	{
-	}
-	
-	private void btnDeleteAction()
-	{
-		deleteSelectedItems();
-//		treeItemSelected(searchTree.getSelectedTreeItem().getText().trim());
-	}
-
-	protected void setTreeSelectedBlock(String blockName)
-	{
-//		searchTree.setTreeSelectedBlock(blockName);
-	}
-	
-	protected void setBlockList(String[] blockList)
-	{
-//		searchTree.setItems(blockList);
 	}
 	
 	private void createRightMenu(Control control, SelectionListener listener)
@@ -196,7 +169,7 @@ public class TableComposite extends AbstractComposite
 			addTableItem(it.next());
 		}
 		
-//		resize();
+		resize();
 	}
 	
 	private void addTableItem(RecordItem item)
@@ -244,51 +217,6 @@ public class TableComposite extends AbstractComposite
 		}
 	}
 
-	protected String fileSave(Shell shell)
-	{
-		FileDialog fd = new FileDialog(shell, SWT.APPLICATION_MODAL | SWT.SAVE);
-		fd.setFilterExtensions(IConstants.CONFIG_FILE_EXTENSION);
-		fd.setFilterNames(IConstants.CONFIG_FILE_NAME);
-		String result = fd.open();
-		if( null != result )
-		{
-			Path file = Paths.get(result);
-	        if (Files.exists(file))
-	        {
-	          MessageBox mb = new MessageBox(fd.getParent(), SWT.ICON_WARNING | SWT.YES | SWT.NO);
-
-	          mb.setMessage(result + " already exists. Do you want to replace it?");
-
-	          boolean done = mb.open() == SWT.YES;
-	          
-	          if( !done )
-	          {
-	        	return null;  
-	          }
-	        }
-		}
-		
-		return result;
-	}
-	
-	private void toSave() 
-	{
-		String fileSavePath = fileSave(this.getShell());
-
-		if (null == fileSavePath)
-		{
-			return;
-		}
-
-		saveAction(fileSavePath);
-	}
-	
-	protected void saveAction(String targetFilePath)
-	{
-		controller.saveFile(targetFilePath);
-		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_LOG_WRITE_INFO, "Source Write to: " + targetFilePath + " finished!");
-	}
-	
 	@Override
 	public void receivedAction(int type, Object content)
 	{
@@ -300,6 +228,20 @@ public class TableComposite extends AbstractComposite
 		if( type == IProtectorActionType.ACTION_DATA_LOADED )
 		{
 			updateParameters(null);
+		}
+		
+		if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED)
+		{
+			boolean isEditable = (boolean)content;
+			
+			if(isEditable)
+			{
+				createRightMenu(table, tableListener);
+			}
+			else
+			{
+				table.setMenu(null);
+			}
 		}
 		
 	}

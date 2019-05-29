@@ -93,15 +93,15 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-				controller.setEditingLocked();
+				controller.setEditable();
 				
-				if(controller.isEditingLocked())
+				if(controller.isEditable())
 				{
-					editToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_EDITABLE_OUTLINE));			
+					editToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_EDITABLE_COLOR));			
 				}
 				else
 				{
-					editToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_EDITABLE_COLOR));
+					editToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_EDITABLE_OUTLINE));
 				}
 			}
 		});
