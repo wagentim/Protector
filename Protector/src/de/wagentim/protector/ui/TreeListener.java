@@ -43,7 +43,7 @@ public class TreeListener extends CellEditingListener
 	@Override
 	protected void updateWithNewValue()
 	{
-		controller.updateBlockName(oldValue, newValue);
+		controller.updateSelectedRecordName(oldValue, newValue);
 	}
 
 	@Override
@@ -100,6 +100,7 @@ public class TreeListener extends CellEditingListener
 		else if(event.getSource() instanceof Tree)
 		{
 			Record record = (Record) getSelectedTreeItem().getData();
+			controller.setSelectedRecord(record);
 			ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_RECORD_SELECTED, record);
 		}
 	}
@@ -136,12 +137,5 @@ public class TreeListener extends CellEditingListener
 	protected void keyPastePressed()
 	{
 		sendPasteMessage();
-	}
-
-	@Override
-	public void receivedAction(int type, Object content)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 }

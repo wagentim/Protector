@@ -7,4 +7,5 @@ public interface IProtectorActionType
 	public static final int ACTION_LOG_WRITE_INFO = 0x02;
 	public static final int ACTION_LOG_WRITE_ERROR = 0x03;
 	public static final int ACTION_LOG_WRITE_WARNING = 0x04;
+	public static final int ACTION_RECORD_ITEM_SELECTED = 0x05;
 }

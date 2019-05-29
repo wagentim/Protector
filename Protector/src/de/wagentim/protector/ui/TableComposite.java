@@ -11,11 +11,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,27 +27,19 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import de.wagentim.common.IConstants;
+import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
-import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.common.IProtectorActionType;
+import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.ProtectorController;
-import de.wagentim.protector.entity.Item;
 import de.wagentim.protector.entity.Record;
+import de.wagentim.protector.entity.RecordItem;
 
 public class TableComposite extends AbstractComposite
 {
 	private Table table;
-//	private Button btnAdd;
-//	private Button btnDelete;
-//	private Button btnSave;
-//	private Button btnLock;
 	protected Color tableBackgroudColor;
 	private Menu rightClickMenu;
-	
-	public final Image IMAGE_ADD;
-	public final Image IMAGE_REMOVE;
-	public final Image IMAGE_COPY;
-	public final Image IMAGE_PASTE;
 	
 	private SearchTreeComponent searchTree;
 	
@@ -63,19 +52,9 @@ public class TableComposite extends AbstractComposite
 		
 		initMainComposite(this, controller);
 		
-		IMAGE_ADD = new Image(parent.getDisplay(), "icons/add.png");
-		IMAGE_REMOVE = new Image(parent.getDisplay(), "icons/remove.png");
-		IMAGE_COPY = new Image(parent.getDisplay(), "icons/copy.png");
-		IMAGE_PASTE = new Image(parent.getDisplay(), "icons/paste.png");
-		
 		tableBackgroudColor = parent.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
 	}
 	
-	public Table getTable()
-	{
-		return table;
-	}
-
 	protected void initMainComposite(Composite comp, ProtectorController controller)
 	{
 		SashForm sf = new SashForm(comp, SWT.HORIZONTAL);
@@ -99,7 +78,7 @@ public class TableComposite extends AbstractComposite
 		gd.heightHint = IConstants.HEIGHT_HINT;
 		table.setLayoutData(gd);
 		
-		TableListener tl = new TableListener(getTable(), controller);
+		TableListener tl = new TableListener(table, controller);
 	    
 		for (int i = 0; i < 2; i++) 
 		{
@@ -110,40 +89,18 @@ public class TableComposite extends AbstractComposite
 		
 		table.addMouseListener(tl);
 		table.addKeyListener(tl);
-		addTableSelectedListener();
+		table.addSelectionListener(tl);
 		sf.setWeights(new int[]{1, 2});
 	}
 	
 	private void btnAddAction()
 	{
-		if ( null == controller.getSelectedItem())
-		{
-			return;
-		}
 	}
 	
 	private void btnDeleteAction()
 	{
 		deleteSelectedItems();
 //		treeItemSelected(searchTree.getSelectedTreeItem().getText().trim());
-	}
-
-	protected void addTableSelectedListener()
-	{
-		getTable().addSelectionListener(new SelectionAdapter()
-		{
-			
-			@Override
-			public void widgetSelected(SelectionEvent event)
-			{
-				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_PARAMETER_SELECTED, getTable().getSelectionIndex());
-
-				String text = getTable().getItem(getTable().getSelectionIndex()).getText(1);
-					
-				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_SOURCE_PARAMETER_SELECTED, text);
-			}
-			
-		});
 	}
 
 	protected void setTreeSelectedBlock(String blockName)
@@ -179,24 +136,24 @@ public class TableComposite extends AbstractComposite
 	            
 	            MenuItem copyItem = new MenuItem(rightClickMenu, SWT.NONE);
 	            copyItem.setText(IConstants.TXT_COPY);
-	            copyItem.setImage(IMAGE_COPY);
+	            copyItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_COPY));
 	            copyItem.addSelectionListener(listener);
 	            
 	            MenuItem pasteItem = new MenuItem(rightClickMenu, SWT.NONE);
 	            pasteItem.setText(IConstants.TXT_PASTE);
-	            pasteItem.setImage(IMAGE_PASTE);
+	            pasteItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_PASTE));
 	            pasteItem.addSelectionListener(listener);
 	            
 	            new MenuItem(rightClickMenu, SWT.SEPARATOR);
 	            
 	            MenuItem newItem = new MenuItem(rightClickMenu, SWT.NONE);
 	            newItem.setText(IConstants.TXT_BTN_ADD);
-	            newItem.setImage(IMAGE_ADD);
+	            newItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
 	            newItem.addSelectionListener(listener);
 	            
 	            MenuItem deleteItem = new MenuItem(rightClickMenu, SWT.NONE);
 	            deleteItem.setText(IConstants.TXT_BTN_DELETE);
-	            deleteItem.setImage(IMAGE_REMOVE);
+	            deleteItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_REMOVE));
 	            deleteItem.addSelectionListener(listener);
 	        }
 	    });
@@ -223,7 +180,7 @@ public class TableComposite extends AbstractComposite
 	}
 
 
-	public void updateParameters(List<Item> items)
+	public void updateParameters(List<RecordItem> items)
 	{
 		clearTable();
 
@@ -232,7 +189,7 @@ public class TableComposite extends AbstractComposite
 			return;
 		}
 		
-		Iterator<Item> it = items.iterator();
+		Iterator<RecordItem> it = items.iterator();
 		
 		while(it.hasNext())
 		{
@@ -242,7 +199,7 @@ public class TableComposite extends AbstractComposite
 //		resize();
 	}
 	
-	private void addTableItem(Item item)
+	private void addTableItem(RecordItem item)
 	{
 		TableItem ti = new TableItem(table, SWT.NONE);
 		ti.setText(0, item.getKey());
@@ -337,7 +294,7 @@ public class TableComposite extends AbstractComposite
 	{
 		if( type == IProtectorActionType.ACTION_RECORD_SELECTED )
 		{
-			updateParameters(controller.getSelectedItems((Record)content));
+			updateParameters(controller.getItems((Record)content));
 		}
 
 		if( type == IProtectorActionType.ACTION_DATA_LOADED )

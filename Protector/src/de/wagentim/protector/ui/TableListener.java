@@ -16,10 +16,11 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import de.wagentim.common.IConstants;
+import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.ProtectorActionManager;
-import de.wagentim.protector.common.IProtectorConstants;
 import de.wagentim.protector.controller.ProtectorController;
 import de.wagentim.protector.entity.CellIndex;
+import de.wagentim.protector.entity.RecordItem;
 
 public class TableListener extends CellEditingListener
 {
@@ -68,7 +69,7 @@ public class TableListener extends CellEditingListener
 	@Override
 	protected void updateWithNewValue()
 	{
-		controller.parameterChanged(cell, newValue);
+		controller.recordItemChanged(cell, newValue);
 	}
 	
 	protected void disposeEditor()
@@ -99,14 +100,13 @@ public class TableListener extends CellEditingListener
 	        }
 			return item;
 		}
-		else if(event instanceof KeyEvent)
+		else if(event instanceof KeyEvent || event instanceof SelectionEvent)
 		{
 			int row = getTable().getSelectionIndices()[0];
 			
 			cell = new CellIndex(row, 1);
 			return getTable().getItem(row);
 		}
-		
 		return null;
 	}
 
@@ -153,7 +153,12 @@ public class TableListener extends CellEditingListener
 				sendPasteMessage();
 			}
 		}
-		
+		else if(event.getSource() instanceof Table)
+		{
+			RecordItem item = (RecordItem) getSelectedItem(event).getData();
+			controller.setSelectedRecordItem(item);
+			ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_RECORD_ITEM_SELECTED, item);
+		}
 	}
 	
 	private void sendCopyMessage()
@@ -182,13 +187,6 @@ public class TableListener extends CellEditingListener
 	protected void keyPastePressed()
 	{
 		sendPasteMessage();
-	}
-
-	@Override
-	public void receivedAction(int type, Object content)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.wagentim.common.db.SqliteDBHandler;
-import de.wagentim.protector.entity.Item;
+import de.wagentim.protector.entity.RecordItem;
 import de.wagentim.protector.entity.Record;
 
 public class SqliteDBController implements IDBController
@@ -161,7 +161,7 @@ public class SqliteDBController implements IDBController
 		return Collections.emptyMap();
 	}
 	
-	public Map<Integer, List<Item>> getAllItems()
+	public Map<Integer, List<RecordItem>> getAllItems()
 	{
 		sb.delete(0, sb.length());
 		sb.append("SELECT * FROM item");
@@ -170,24 +170,24 @@ public class SqliteDBController implements IDBController
 		
 		try
 		{
-			List<Item> items = handler.executeQuery(sb.toString(), new ItemResultExtractor());
+			List<RecordItem> items = handler.executeQuery(sb.toString(), new ItemResultExtractor());
 			
 			if( !items.isEmpty() )
 			{
-				Map<Integer, List<Item>> result = new HashMap<Integer, List<Item>>();
+				Map<Integer, List<RecordItem>> result = new HashMap<Integer, List<RecordItem>>();
 				
-				Iterator<Item> it = items.iterator();
+				Iterator<RecordItem> it = items.iterator();
 				
 				while(it.hasNext())
 				{
-					Item i = it.next();
+					RecordItem i = it.next();
 					int recordID = i.getRecordId();
 					
-					List<Item> list = result.get(recordID);
+					List<RecordItem> list = result.get(recordID);
 					
 					if( null == list )
 					{
-						list = new ArrayList<Item>();
+						list = new ArrayList<RecordItem>();
 						result.put(recordID, list);
 					}
 					

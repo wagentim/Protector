@@ -22,6 +22,5 @@ public class ContentComposite extends AbstractComposite
 		TableComposite tc = new TableComposite(this, SWT.NONE, controller, imageRegister);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		tc.setLayoutData(gd);
-		
 	}
 }

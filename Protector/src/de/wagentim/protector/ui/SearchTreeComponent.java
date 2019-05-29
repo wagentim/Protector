@@ -26,10 +26,9 @@ import de.wagentim.protector.entity.Record;
 public class SearchTreeComponent extends AbstractComposite
 {
 
-	private Tree itemList;
+	private Tree recordTree;
 	private TreeItem root;
 	private TableComposite tableComposite;
-
 	private TreeListener tl;
 	private Menu rightClickMenu;
 	
@@ -49,20 +48,20 @@ public class SearchTreeComponent extends AbstractComposite
 	{
 		new SearchComposite(this, SWT.BORDER, controller, imageRegister);
 		
-		itemList = new Tree(this, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		recordTree = new Tree(this, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.heightHint = IConstants.HEIGHT_HINT;
-		itemList.setLayoutData(gd);
+		recordTree.setLayoutData(gd);
 		
-		root = new TreeItem(itemList, SWT.NONE);
+		root = new TreeItem(recordTree, SWT.NONE);
 		root.setText(IConstants.TXT_RECORD);
 		root.setImage(imageRegister.getImage(IImageConstants.IMAGE_ROOT));
 		
-		tl = new TreeListener(itemList, controller);
-		itemList.addMouseListener(tl);
-		itemList.addKeyListener(tl);
-		itemList.addSelectionListener(tl);
-		createRightMenu(itemList, tl);
+		tl = new TreeListener(recordTree, controller);
+		recordTree.addMouseListener(tl);
+		recordTree.addKeyListener(tl);
+		recordTree.addSelectionListener(tl);
+		createRightMenu(recordTree, tl);
 		
 	}
 	
@@ -83,7 +82,7 @@ public class SearchTreeComponent extends AbstractComposite
 	                items[i].dispose();
 	            }
 	            
-	            if(itemList.getSelectionCount() <= 0)
+	            if(recordTree.getSelectionCount() <= 0)
 	            {
 	            	return;
 	            }
@@ -138,7 +137,7 @@ public class SearchTreeComponent extends AbstractComposite
 	
 	public void setTreeSelectedRecord(int index)
 	{
-		itemList.select(root.getItem(index));
+		recordTree.select(root.getItem(index));
 	}
 
 	public TableComposite getTableComposite()

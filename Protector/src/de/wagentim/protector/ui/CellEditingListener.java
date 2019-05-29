@@ -16,13 +16,11 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
-import de.wagentim.common.IActionListener;
 import de.wagentim.common.IConstants;
-import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.ProtectorController;
 import de.wagentim.protector.entity.CellIndex;
 
-public abstract class CellEditingListener implements MouseListener, IActionListener, KeyListener, SelectionListener
+public abstract class CellEditingListener implements MouseListener, KeyListener, SelectionListener
 {
 	
 	private final Composite composite;
@@ -38,8 +36,6 @@ public abstract class CellEditingListener implements MouseListener, IActionListe
 		this.controller = controller;
 		
 		editor = getNewEditor();
-		
-		ProtectorActionManager.actionManager.addActionListener(this);
 	}
 
 	protected Composite getComposite()
@@ -71,7 +67,7 @@ public abstract class CellEditingListener implements MouseListener, IActionListe
 
 		oldEditor.dispose();
 
-		if (!newValue.equalsIgnoreCase(oldValue))
+		if (!newValue.equals(oldValue))
 		{
 			updateWithNewValue();
 		}
@@ -106,7 +102,6 @@ public abstract class CellEditingListener implements MouseListener, IActionListe
         {
           return;
         }
-        
         Text newEditor = new Text(getComposite(), SWT.NONE);
         
         if( item instanceof TreeItem)

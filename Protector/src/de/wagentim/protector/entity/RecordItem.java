@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import de.wagentim.common.IConstants;
 
-public class Item implements Serializable
+public class RecordItem implements Serializable
 {
 	
 	/**
@@ -17,7 +17,7 @@ public class Item implements Serializable
 	private final int recordId;
 	private final int itemId;
 	
-	public Item(final int blockId, final int itemId)
+	public RecordItem(final int blockId, final int itemId)
 	{
 		super();
 		this.recordId = blockId;
@@ -34,7 +34,7 @@ public class Item implements Serializable
 		return itemId;
 	}
 
-	public Item(final int blockId, final int itemId, String key, String value)
+	public RecordItem(final int blockId, final int itemId, String key, String value)
 	{
 		super();
 		this.key = key;

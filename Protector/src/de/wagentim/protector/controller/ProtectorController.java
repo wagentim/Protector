@@ -5,13 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import de.wagentim.common.IConstants;
-import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.common.IProtectorActionType;
+import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.db.IDBController;
 import de.wagentim.protector.db.SqliteDBController;
 import de.wagentim.protector.entity.CellIndex;
-import de.wagentim.protector.entity.Item;
+import de.wagentim.protector.entity.RecordItem;
 import de.wagentim.protector.entity.Record;
 
 public class ProtectorController
@@ -19,9 +18,10 @@ public class ProtectorController
 	private List<Record> itemList = Collections.emptyList();
 	private final IDBController dbController;
 	private boolean isEditingBlocked = true;
-	private String selectedItem = IConstants.EMPTY_STRING;
+	private Record selectedRecord = null;
+	private RecordItem selectedRecordItem = null;
 	private Map<Integer, Record> records = Collections.emptyMap();
-	private Map<Integer, List<Item>> items = Collections.emptyMap();
+	private Map<Integer, List<RecordItem>> items = Collections.emptyMap();
 	
 	public ProtectorController()
 	{
@@ -87,16 +87,6 @@ public class ProtectorController
 		
 	}
 
-	public Record getSelectedItem()
-	{
-		if(null == selectedItem || selectedItem.isEmpty())
-		{
-			return null;
-		}
-		
-		return findEntity(selectedItem);
-	}
-	
 	private Record findEntity(String item)
 	{
 		Iterator<Record> it = itemList.iterator();
@@ -126,9 +116,9 @@ public class ProtectorController
 		
 	}
 
-	public void setSelectedItem(String item)
+	public void setSelectedRecord(Record record)
 	{
-		selectedItem = item;
+		selectedRecord = record;
 	}
 
 	public void deleteParameters(int[] selectedItems, String text)
@@ -155,19 +145,39 @@ public class ProtectorController
 		
 	}
 
-	public void parameterChanged(CellIndex cell, String newValue)
+	public void recordItemChanged(CellIndex cell, String newValue)
 	{
-		// TODO Auto-generated method stub
+		int column = cell.getColumn();
+		
+		switch (column)
+		{
+		case 0:	selectedRecordItem.setKey(newValue);
+				break;
+		case 1: selectedRecordItem.setValue(newValue);
+				break;
+		}
+		
+		dbController.updateItem(selectedRecordItem.getRecordId(), selectedRecordItem.getItemId(), selectedRecordItem.getKey(), selectedRecordItem.getValue());
 		
 	}
-
-	public void updateBlockName(String oldValue, String newValue)
+	
+	public void setSelectedRecordItem(RecordItem item)
 	{
-		// TODO Auto-generated method stub
-		
+		this.selectedRecordItem = item;
 	}
 
-	public List<Item> getSelectedItems(Record record)
+	public void updateSelectedRecordName(String oldValue, String newValue)
+	{
+		selectedRecord.setName(newValue);
+		dbController.updateRecordName(selectedRecord.getId(), newValue);
+	}
+	
+	public RecordItem getSelectedItem()
+	{
+		return selectedRecordItem;
+	}
+
+	public List<RecordItem> getItems(Record record)
 	{
 		if( null == record )
 		{

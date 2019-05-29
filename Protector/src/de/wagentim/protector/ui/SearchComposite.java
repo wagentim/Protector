@@ -16,7 +16,6 @@ import de.wagentim.common.IConstants;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
 import de.wagentim.protector.common.ProtectorActionManager;
-import de.wagentim.protector.common.IProtectorConstants;
 import de.wagentim.protector.controller.ProtectorController;
 
 public class SearchComposite extends AbstractComposite
