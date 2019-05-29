@@ -147,12 +147,12 @@ public class TableComposite extends AbstractComposite
 	            new MenuItem(rightClickMenu, SWT.SEPARATOR);
 	            
 	            MenuItem newItem = new MenuItem(rightClickMenu, SWT.NONE);
-	            newItem.setText(IConstants.TXT_BTN_ADD);
+	            newItem.setText(IConstants.TXT_ADD);
 	            newItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
 	            newItem.addSelectionListener(listener);
 	            
 	            MenuItem deleteItem = new MenuItem(rightClickMenu, SWT.NONE);
-	            deleteItem.setText(IConstants.TXT_BTN_DELETE);
+	            deleteItem.setText(IConstants.TXT_DELETE);
 	            deleteItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_REMOVE));
 	            deleteItem.addSelectionListener(listener);
 	        }

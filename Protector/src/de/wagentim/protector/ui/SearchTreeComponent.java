@@ -61,8 +61,6 @@ public class SearchTreeComponent extends AbstractComposite
 		recordTree.addMouseListener(tl);
 		recordTree.addKeyListener(tl);
 		recordTree.addSelectionListener(tl);
-		createRightMenu(recordTree, tl);
-		
 	}
 	
 	private void createRightMenu(Control control, SelectionListener listener)
@@ -100,16 +98,14 @@ public class SearchTreeComponent extends AbstractComposite
 	            new MenuItem(rightClickMenu, SWT.SEPARATOR);
 	            
 	            MenuItem newItem = new MenuItem(rightClickMenu, SWT.NONE);
-	            newItem.setText(IConstants.TXT_BTN_ADD);
+	            newItem.setText(IConstants.TXT_ADD);
 	            newItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
 	            newItem.addSelectionListener(listener);
 
 	            MenuItem deleteItem = new MenuItem(rightClickMenu, SWT.NONE);
-	            deleteItem.setText(IConstants.TXT_BTN_DELETE);
+	            deleteItem.setText(IConstants.TXT_DELETE);
 	            deleteItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_REMOVE));
 	            deleteItem.addSelectionListener(listener);
-	            
-	            
 	        }
 	    });
 	}
@@ -150,23 +146,6 @@ public class SearchTreeComponent extends AbstractComposite
 		this.tableComposite = tableComposite;
 	}
 	
-	private TreeItem getTreeItem(String name)
-	{
-		TreeItem[] items = root.getItems();
-		
-		for(int i = 0; i < items.length; i++)
-		{
-			TreeItem ti = items[i];
-			
-			if(name.equals(ti.getText()))
-			{
-				return ti;
-			}
-		}
-		
-		return null;
-	}
-	
 	public void receivedAction(int type, Object content)
 	{
 		if( IProtectorActionType.ACTION_DATA_LOADED == type)
@@ -185,29 +164,11 @@ public class SearchTreeComponent extends AbstractComposite
 			setTreeSelectedRecord(0);
 		}
 		
-	}
-	
-	private void addNewBlock(Record content)
-	{
-//		InfoEntity newBlock = content;
-//		
-//		TreeItem selectedItem = getSelectedTreeItem();
-//		TreeItem root = selectedItem.getParentItem();
-//		
-//		TreeItem parent;
-//		int index;
-//		
-//		if( null == root )
-//		{
-//			parent = selectedItem;
-//			index = 0;
-//		}
-//		else
-//		{
-//			parent = root;
-//			index = parent.indexOf(selectedItem);
-//		}
-//		
-//		addTreeItem(newBlock.getName(), parent, index);
+		if( IProtectorActionType.ACTION_ADD_NEW_RECORD == type )
+		{
+			Record record = (Record)content;
+			addTreeItem(record, root, recordTree.indexOf(recordTree.getSelection()[0]) + 1);
+		}
+		
 	}
 }

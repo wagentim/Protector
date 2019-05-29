@@ -125,7 +125,6 @@ public class TableListener extends CellEditingListener
 	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -136,11 +135,11 @@ public class TableListener extends CellEditingListener
 		{
 			String text = ((MenuItem)event.getSource()).getText();
 			
-			if( text.contentEquals(IConstants.TXT_BTN_ADD) )
+			if( text.contentEquals(IConstants.TXT_ADD) )
 			{
 				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_MENU_ADD, IConstants.EMPTY_STRING);
 			}
-			else if( text.contentEquals(IConstants.TXT_BTN_DELETE) )
+			else if( text.contentEquals(IConstants.TXT_DELETE) )
 			{
 				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_MENU_DELETE, IConstants.EMPTY_STRING);
 			}

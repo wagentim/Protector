@@ -5,23 +5,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.wagentim.common.IDManager;
 import de.wagentim.protector.common.IProtectorActionType;
+import de.wagentim.protector.common.IProtectorConstants;
 import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.db.IDBController;
 import de.wagentim.protector.db.SqliteDBController;
 import de.wagentim.protector.entity.CellIndex;
-import de.wagentim.protector.entity.RecordItem;
 import de.wagentim.protector.entity.Record;
+import de.wagentim.protector.entity.RecordItem;
 
 public class ProtectorController
 {
-	private List<Record> itemList = Collections.emptyList();
 	private final IDBController dbController;
 	private boolean isEditingBlocked = true;
 	private Record selectedRecord = null;
 	private RecordItem selectedRecordItem = null;
 	private Map<Integer, Record> records = Collections.emptyMap();
 	private Map<Integer, List<RecordItem>> items = Collections.emptyMap();
+	private Logger logger = LoggerFactory.getLogger(ProtectorController.class);
 	
 	public ProtectorController()
 	{
@@ -30,25 +35,37 @@ public class ProtectorController
 	
 	public void loadAllData()
 	{
+		records.clear();
+		items.clear();
+		IDManager.INSTANCE().clear();
+		
 		records = dbController.getAllRecords();
 		items = dbController.getAllItems();
+		
+		Iterator<Integer> it = records.keySet().iterator();
+		while(it.hasNext())
+		{
+			addExistedID(it.next());
+		}
+		
+		Iterator<List<RecordItem>> itemListIt = (items.values()).iterator();
+		
+		while(itemListIt.hasNext())
+		{
+			Iterator<RecordItem> itemIt = itemListIt.next().iterator();
+			
+			while(itemIt.hasNext())
+			{
+				addExistedID(itemIt.next().getItemId());
+			}
+		}
+		
 		ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_DATA_LOADED, records.values());
 	}
 	
-	public String[] getItemNames()
+	private void addExistedID(int id)
 	{
-		String[] result = new String[itemList.size()];
-		
-		for(int i = 0; i < itemList.size(); i++)
-		{
-//			result[i] = itemList.get(i).getName();
-		}
-		
-		return result;
-	}
-	
-	public void exit()
-	{
+		IDManager.INSTANCE().addID(id);
 	}
 	
 	public boolean isEditingLocked()
@@ -81,27 +98,13 @@ public class ProtectorController
 		return null;
 	}
 
-	public void addConfigBlock(Record newBlock)
+	public Record addNewRecord()
 	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	private Record findEntity(String item)
-	{
-		Iterator<Record> it = itemList.iterator();
-		
-		while(it.hasNext())
-		{
-			Record entity = it.next();
-			
-//			if(entity.getName().equals(item))
-//			{
-//				return entity;
-//			}
-		}
-		
-		return null;
+		Record record = new Record(IDManager.INSTANCE().getRandomInteger(), IProtectorConstants.TXT_DEFAULT_RECORD_NAME);
+		records.put(record.getId(), record);
+		dbController.insertNewRecord(record.getId(), record.getName());
+		logger.info("Add New Record: {}", record.toString());
+		return record;
 	}
 
 	public int getFocusedElement()
@@ -158,7 +161,11 @@ public class ProtectorController
 		}
 		
 		dbController.updateItem(selectedRecordItem.getRecordId(), selectedRecordItem.getItemId(), selectedRecordItem.getKey(), selectedRecordItem.getValue());
-		
+	}
+	
+	public RecordItem getSelectedRecordItem()
+	{
+		return selectedRecordItem;
 	}
 	
 	public void setSelectedRecordItem(RecordItem item)
@@ -166,17 +173,17 @@ public class ProtectorController
 		this.selectedRecordItem = item;
 	}
 
+	public Record getSelectedRecord()
+	{
+		return selectedRecord;
+	}
+	
 	public void updateSelectedRecordName(String oldValue, String newValue)
 	{
 		selectedRecord.setName(newValue);
 		dbController.updateRecordName(selectedRecord.getId(), newValue);
 	}
 	
-	public RecordItem getSelectedItem()
-	{
-		return selectedRecordItem;
-	}
-
 	public List<RecordItem> getItems(Record record)
 	{
 		if( null == record )
