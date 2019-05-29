@@ -114,9 +114,13 @@ public class SearchComposite extends AbstractComposite
 	@Override
 	public void receivedAction(int type, Object content)
 	{
-		if( type == IConstants.ACTION_LOAD_DATA || type == IConstants.ACTION_DROP_NEW_FILE_SELECTED)
+		if( type == IProtectorActionType.ACTION_DATA_LOADED)
 		{
 			searchText.setText(IConstants.EMPTY_STRING);
+		}
+		else if( type == IProtectorActionType.ACTION_FOCUS_SEARCH )
+		{
+			searchText.setFocus();
 		}
 	}
 }

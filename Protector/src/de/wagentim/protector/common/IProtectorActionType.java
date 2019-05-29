@@ -12,4 +12,7 @@ public interface IProtectorActionType
 	public static final int ACTION_EDITING_STATUS_CHANGED = 0x07;
 	public static final int ACTION_ADD_NEW_RECORD_ITEM = 0x08;
 	public static final int ACTION_SEARCH_RECORD_UPDATED = 0x09;
+	public static final int ACTION_FOCUS_SEARCH = 0x0A;
+	public static final int ACTION_FOCUS_TREE = 0x0B;
+	public static final int ACTION_FOCUS_TABLE = 0x0C;
 }

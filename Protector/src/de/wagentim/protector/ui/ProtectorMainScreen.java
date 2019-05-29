@@ -8,6 +8,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
@@ -39,10 +41,35 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 		controller = new ProtectorController();
 		initMainScreen(this);
 		initMainComponents(this);
+		initKeyListener();
 		
 		ProtectorActionManager.actionManager.addActionListener(this);
 	}
 	
+	private void initKeyListener()
+	{
+		this.getShell().getDisplay().addFilter(SWT.KeyDown, new Listener()
+		{
+			
+			@Override
+			public void handleEvent(Event event)
+			{
+				if( ((event.stateMask & SWT.CTRL) == SWT.CTRL) && ((event.keyCode == 'f') || (event.keyCode == 'F')) )
+				{
+					ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_FOCUS_SEARCH, null);
+				}
+				else if( ((event.stateMask & SWT.CTRL) == SWT.CTRL) && ((event.keyCode == 'r') || (event.keyCode == 'R')) )
+				{
+					ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_FOCUS_TREE, null);
+				}
+				else if( ((event.stateMask & SWT.CTRL) == SWT.CTRL) && ((event.keyCode == 't') || (event.keyCode == 'T')) )
+				{
+					ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_FOCUS_TABLE, null);
+				}
+			}
+		});
+	}
+
 	private void initMainComponents(Composite shell)
 	{
 		main = new SashForm(shell, SWT.VERTICAL);

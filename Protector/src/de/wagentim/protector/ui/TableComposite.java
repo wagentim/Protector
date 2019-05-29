@@ -254,6 +254,10 @@ public class TableComposite extends AbstractComposite
 			
 			addTableItem(ri);
 		}
+		else if( type == IProtectorActionType.ACTION_FOCUS_TABLE )
+		{
+			table.setFocus();
+		}
 		
 	}
 }

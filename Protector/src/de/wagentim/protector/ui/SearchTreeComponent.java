@@ -152,13 +152,11 @@ public class SearchTreeComponent extends AbstractComposite
 		{
 			updateRecordTree(controller.getAllRecords());
 		}
-		
 		else if( IProtectorActionType.ACTION_ADD_NEW_RECORD == type )
 		{
 			Record record = (Record)content;
 			addTreeItem(record, root, recordTree.indexOf(recordTree.getSelection()[0]));
 		}
-		
 		else if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED )
 		{
 			boolean isEditable = (boolean)content;
@@ -177,10 +175,13 @@ public class SearchTreeComponent extends AbstractComposite
 				}
 			}
 		}
-		
 		else if( type == IProtectorActionType.ACTION_SEARCH_RECORD_UPDATED )
 		{
 			updateRecordTree(controller.getSearchRecords());
+		}
+		else if( type == IProtectorActionType.ACTION_FOCUS_TREE )
+		{
+			recordTree.setFocus();
 		}
 	}
 
@@ -193,7 +194,10 @@ public class SearchTreeComponent extends AbstractComposite
 		{
 			addTreeItem(it.next(), root, -1);
 		}
-
-		setTreeSelectedRecord(0);
+		
+		if( root.getItemCount() > 0 )
+		{
+			setTreeSelectedRecord(0);
+		}
 	}
 }
