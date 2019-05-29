@@ -150,18 +150,7 @@ public class SearchTreeComponent extends AbstractComposite
 	{
 		if( IProtectorActionType.ACTION_DATA_LOADED == type)
 		{
-			root.removeAll();
-
-			@SuppressWarnings("unchecked")
-			Collection<Record> records = (Collection<Record>) content;
-			
-			Iterator<Record> it = records.iterator();
-			while(it.hasNext())
-			{
-				addTreeItem(it.next(), root, -1);
-			}
-
-			setTreeSelectedRecord(0);
+			updateRecordTree(controller.getAllRecords());
 		}
 		
 		else if( IProtectorActionType.ACTION_ADD_NEW_RECORD == type )
@@ -188,5 +177,23 @@ public class SearchTreeComponent extends AbstractComposite
 				}
 			}
 		}
+		
+		else if( type == IProtectorActionType.ACTION_SEARCH_RECORD_UPDATED )
+		{
+			updateRecordTree(controller.getSearchRecords());
+		}
+	}
+
+	private void updateRecordTree(Collection<Record> records)
+	{
+		root.removeAll();
+
+		Iterator<Record> it = records.iterator();
+		while(it.hasNext())
+		{
+			addTreeItem(it.next(), root, -1);
+		}
+
+		setTreeSelectedRecord(0);
 	}
 }

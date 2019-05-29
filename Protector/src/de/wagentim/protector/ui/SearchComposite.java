@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Text;
 import de.wagentim.common.IConstants;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
+import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.ProtectorController;
 
@@ -61,7 +62,7 @@ public class SearchComposite extends AbstractComposite
 			public void modifyText(ModifyEvent event)
 			{
 				String text = searchText.getText();
-				controller.setShowConfigBlocks(text);
+				controller.createSearchRecords(text);
 				if(!text.isEmpty())
 				{
 					cancelImage.setVisible(true);
@@ -71,7 +72,7 @@ public class SearchComposite extends AbstractComposite
 					cancelImage.setVisible(false);
 				}
 				
-				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_SET_SHOW_CONFIG_BLOCKS, text);
+				ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_SEARCH_RECORD_UPDATED, text);
 			}
 		});
 		

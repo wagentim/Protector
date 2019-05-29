@@ -9,6 +9,4 @@ public interface IProtectorConstants
 	public static final String TXT_DEFAULT_RECORD_ITEM_NAME = "ITEM";
 	
 	public static final int WIDTH_TOOL_BAR = 30;
-	
-	
 }

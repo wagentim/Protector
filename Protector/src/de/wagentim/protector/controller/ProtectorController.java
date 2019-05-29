@@ -1,6 +1,7 @@
 package de.wagentim.protector.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +28,8 @@ public class ProtectorController
 	private RecordItem selectedRecordItem = null;
 	private Map<Integer, Record> records = Collections.emptyMap();
 	private Map<Integer, List<RecordItem>> items = Collections.emptyMap();
-	private Logger logger = LoggerFactory.getLogger(ProtectorController.class);
+	private final Logger logger = LoggerFactory.getLogger(ProtectorController.class);
+	private final Collection<Record> showSearchRecords = new ArrayList<Record>();
 	
 	public ProtectorController()
 	{
@@ -64,6 +66,11 @@ public class ProtectorController
 		ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_DATA_LOADED, records.values());
 	}
 	
+	public Collection<Record> getAllRecords()
+	{
+		return records.values();
+	}
+	
 	private void addExistedID(int id)
 	{
 		IDManager.INSTANCE().addID(id);
@@ -80,26 +87,6 @@ public class ProtectorController
 		ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_EDITING_STATUS_CHANGED, isEditable);
 	}
 	
-	public void setShowConfigBlocks(String text)
-	{
-		
-	}
-	
-	public void removeBlock(String name)
-	{
-		
-	}
-	
-	public void copyBlock(String name)
-	{
-		
-	}
-
-	public Record getCopyBlock()
-	{
-		return null;
-	}
-
 	public Record addNewRecord()
 	{
 		Record record = new Record(IDManager.INSTANCE().getRandomInteger(), IProtectorConstants.TXT_DEFAULT_RECORD_NAME);
@@ -178,5 +165,27 @@ public class ProtectorController
 		
 		return recordItem;
 	}
+
+	public void createSearchRecords(String text)
+	{
+		Collection<Record> rds = records.values();
+		showSearchRecords.clear();
+		
+		Iterator<Record> it = rds.iterator();
+		
+		while(it.hasNext())
+		{
+			Record rd = it.next();
+			
+			if(rd.getName().toLowerCase().contains(text.toLowerCase()))
+			{
+				showSearchRecords.add(rd);
+			}
+		}
+	}
 	
+	public Collection<Record> getSearchRecords()
+	{
+		return showSearchRecords;
+	}
 }
