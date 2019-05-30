@@ -84,7 +84,6 @@ public class ProtectorController
 	public void setEditable()
 	{
 		isEditable = !isEditable;
-		ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_EDITING_STATUS_CHANGED, isEditable);
 	}
 	
 	public Record addNewRecord()
@@ -147,8 +146,12 @@ public class ProtectorController
 		return items.get(record.getId());
 	}
 
-	public RecordItem getNewRecordItem()
-	{
+	public RecordItem getNewRecordItem() {
+		if( null == selectedRecord )
+		{
+			return null;
+		}
+		
 		RecordItem recordItem = new RecordItem(selectedRecord.getId(), IDManager.INSTANCE().getRandomInteger(), IProtectorConstants.TXT_DEFAULT_RECORD_ITEM_NAME, IProtectorConstants.TXT_DEFAULT_RECORD_ITEM_NAME);
 		dbController.insertNewItem(recordItem.getRecordId(), recordItem.getItemId(), recordItem.getKey(), recordItem.getValue());
 		List<RecordItem> recordItems = items.get(recordItem.getRecordId());

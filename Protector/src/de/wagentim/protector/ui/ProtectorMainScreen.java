@@ -22,7 +22,6 @@ import de.wagentim.protector.common.IProtectorConstants;
 import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.InfoBlockWriter;
 import de.wagentim.protector.controller.ProtectorController;
-import de.wagentim.protector.entity.RecordItem;
 
 public class ProtectorMainScreen extends Composite implements IActionListener
 {
@@ -32,7 +31,6 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 	private final ImageRegister imageRegister;
 	private ToolItem editToolItem;
 	private ToolItem loadToolItem;
-	private ToolItem addRecordItem;
 	private Display display;
 	
 	public ProtectorMainScreen(Composite parent, int style, final ImageRegister imageRegister)
@@ -145,34 +143,14 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 				{
 					editToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_EDITABLE_OUTLINE));
 				}
+				
+				ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_EDITING_STATUS_CHANGED, controller.isEditable());
 			}
 		});
-		
-		new ToolItem(bar, SWT.SEPARATOR);
-		
-		addRecordItem = new ToolItem(bar, SWT.PUSH);
-		addRecordItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
-		addRecordItem.setText(IProtectorConstants.TXT_ADD_RECORD_ITEM);
-		addRecordItem.addSelectionListener(new SelectionAdapter()
-		{
-			@Override
-			public void widgetSelected(SelectionEvent arg0)
-			{
-				RecordItem recordItem = controller.getNewRecordItem();
-				ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_ADD_NEW_RECORD_ITEM, recordItem);
-			}
-		});
-		addRecordItem.setEnabled(false);
 	}
 
 	@Override
 	public void receivedAction(int type, Object content)
 	{
-		if( type == IProtectorActionType.ACTION_EDITING_STATUS_CHANGED )
-		{
-			boolean isEditable = (boolean)content;
-			
-			addRecordItem.setEnabled(isEditable);
-		}
 	}
 }

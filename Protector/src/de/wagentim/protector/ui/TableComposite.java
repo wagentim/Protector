@@ -8,6 +8,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
@@ -20,12 +22,15 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 
 import de.wagentim.common.IConstants;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
 import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.IProtectorConstants;
+import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.ProtectorController;
 import de.wagentim.protector.entity.Record;
 import de.wagentim.protector.entity.RecordItem;
@@ -37,6 +42,7 @@ public class TableComposite extends AbstractComposite
 	private Menu rightClickMenu;
 	private SearchTreeComponent searchTree;
 	private TableListener tableListener;
+	private ToolItem addToolItem;
 	
 	public TableComposite(Composite parent, int style, ProtectorController controller, ImageRegister imageRegister)
 	{
@@ -63,6 +69,28 @@ public class TableComposite extends AbstractComposite
 		layout.marginTop = layout.marginBottom = layout.marginLeft = layout.marginRight = 0; 
 		tableComposite.setLayout(layout);
 		tableComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		
+		ToolBar bar = new ToolBar(tableComposite, SWT.FLAT);
+		bar.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
+		addToolItem = new ToolItem(bar, SWT.PUSH);
+		addToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
+		addToolItem.addSelectionListener(new SelectionAdapter()
+		{
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				RecordItem recordItem = controller.getNewRecordItem();
+				
+				if( recordItem == null )
+				{
+					return;
+				}
+				
+				ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_ADD_NEW_RECORD_ITEM, recordItem);
+			}
+		});
+		addToolItem.setEnabled(false);
+		
 		
 		table = new Table(tableComposite, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLinesVisible(true);
@@ -250,6 +278,8 @@ public class TableComposite extends AbstractComposite
 					rightClickMenu.dispose();
 				}
 			}
+
+			addToolItem.setEnabled(isEditable);
 		}
 		else if( type == IProtectorActionType.ACTION_ADD_NEW_RECORD_ITEM )
 		{
@@ -261,6 +291,5 @@ public class TableComposite extends AbstractComposite
 		{
 			table.setFocus();
 		}
-		
 	}
 }
