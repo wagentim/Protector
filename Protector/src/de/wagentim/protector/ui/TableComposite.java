@@ -25,6 +25,7 @@ import de.wagentim.common.IConstants;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
 import de.wagentim.protector.common.IProtectorActionType;
+import de.wagentim.protector.common.IProtectorConstants;
 import de.wagentim.protector.controller.ProtectorController;
 import de.wagentim.protector.entity.Record;
 import de.wagentim.protector.entity.RecordItem;
@@ -73,9 +74,10 @@ public class TableComposite extends AbstractComposite
 		
 		tableListener = new TableListener(table, controller);
 	    
-		for (int i = 0; i < 2; i++) 
+		for (int i = 0; i < IProtectorConstants.TABLE_TITLES.length; i++) 
 		{
 			TableColumn column = new TableColumn(table, SWT.LEFT);
+			column.setText(IProtectorConstants.TABLE_TITLES[i]);
 			column.setResizable(true);
 			column.setWidth(150);
 		}
@@ -83,6 +85,7 @@ public class TableComposite extends AbstractComposite
 		table.addMouseListener(tableListener);
 		table.addKeyListener(tableListener);
 		table.addSelectionListener(tableListener);
+		
 		sf.setWeights(new int[]{1, 2});
 	}
 	

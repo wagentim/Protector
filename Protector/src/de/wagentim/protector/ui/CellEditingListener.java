@@ -2,6 +2,9 @@ package de.wagentim.protector.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ControlEditor;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -86,6 +89,20 @@ public abstract class CellEditingListener implements MouseListener, KeyListener,
 		
 		if(!isEditable)
 		{
+			final Item item = getSelectedItem(event);
+			
+			if( item instanceof TableItem )
+			{
+				Clipboard clipboard = new Clipboard(composite.getDisplay());
+				String textData = ((TableItem)item).getText(1);
+		        TextTransfer textTransfer = TextTransfer.getInstance();
+		        Transfer[] transfers = new Transfer[]{textTransfer};
+		        Object[] data = new Object[]{textData};
+		        clipboard.setContents(data, transfers);
+		        clipboard.dispose();
+
+			}
+			
 			return;
 		}
 		
@@ -198,19 +215,25 @@ public abstract class CellEditingListener implements MouseListener, KeyListener,
 		
 		if(((keyEvent.stateMask & SWT.CTRL) == SWT.CTRL) && ((keyEvent.keyCode == 'c') || (keyEvent.keyCode == 'C')) )
 		{
-			keyCopyPressed();
+			final Item item = getSelectedItem(keyEvent);
+			
+			if( item instanceof TableItem )
+			{
+				Clipboard clipboard = new Clipboard(composite.getDisplay());
+				String textData = ((TableItem)item).getText(1);
+		        TextTransfer textTransfer = TextTransfer.getInstance();
+		        Transfer[] transfers = new Transfer[]{textTransfer};
+		        Object[] data = new Object[]{textData};
+		        clipboard.setContents(data, transfers);
+		        clipboard.dispose();
+			}
 		}
 		
 		if(((keyEvent.stateMask & SWT.CTRL) == SWT.CTRL) && ((keyEvent.keyCode == 'v') || (keyEvent.keyCode == 'V')) )
 		{
-			keyPastePressed();
 		}
 		
 	}
-
-	protected abstract void keyPastePressed();
-
-	protected abstract void keyCopyPressed();
 
 	@Override
 	public void keyReleased(KeyEvent arg0)

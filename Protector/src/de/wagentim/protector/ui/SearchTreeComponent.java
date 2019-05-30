@@ -184,10 +184,22 @@ public class SearchTreeComponent extends AbstractComposite
 			recordTree.setFocus();
 		}
 	}
+	
+	private void clearTree()
+	{
+		TreeItem[] items = root.getItems();
+		
+		root.removeAll();
+		
+		for(TreeItem t : items)
+		{
+			t.dispose();
+		}
+	}
 
 	private void updateRecordTree(Collection<Record> records)
 	{
-		root.removeAll();
+		clearTree();
 
 		Iterator<Record> it = records.iterator();
 		while(it.hasNext())

@@ -101,6 +101,8 @@ public class TreeListener extends CellEditingListener
 			controller.setSelectedRecord(record);
 			ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_RECORD_SELECTED, record);
 		}
+		
+		
 	}
 	
 	private TreeItem getSelectedTreeItem()
@@ -123,17 +125,5 @@ public class TreeListener extends CellEditingListener
 	protected CellIndex getCell()
 	{
 		return null;
-	}
-
-	@Override
-	protected void keyCopyPressed()
-	{
-		sendCopyMessage();
-	}
-
-	@Override
-	protected void keyPastePressed()
-	{
-		sendPasteMessage();
 	}
 }

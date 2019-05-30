@@ -14,6 +14,7 @@ public class ContentComposite extends AbstractComposite
 	{
 		super(composite, style, controller, imageRegister);
 		GridLayout layout = new GridLayout(1, false);
+		layout.marginTop = layout.marginLeft = layout.marginRight = layout.marginBottom = 0;
 		this.setLayout(layout);
 		GridData cgd = new GridData(GridData.FILL_HORIZONTAL);
 		this.setLayoutData(cgd);

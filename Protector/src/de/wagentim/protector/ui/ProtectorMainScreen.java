@@ -8,6 +8,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
@@ -32,12 +33,13 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 	private ToolItem editToolItem;
 	private ToolItem loadToolItem;
 	private ToolItem addRecordItem;
+	private Display display;
 	
 	public ProtectorMainScreen(Composite parent, int style, final ImageRegister imageRegister)
 	{
 		super(parent, style);
 		this.imageRegister = imageRegister;
-		
+		display = parent.getDisplay();
 		controller = new ProtectorController();
 		initMainScreen(this);
 		initMainComponents(this);
@@ -76,11 +78,10 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		main.setLayoutData(gd);
 
-		new ContentComposite(main, SWT.BORDER, controller, imageRegister);
+		new ContentComposite(main, SWT.NONE, controller, imageRegister);
 		
 		txtInfoBlock = new StyledText(main, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 3;
 		txtInfoBlock.setLayoutData(gd);
 		txtInfoBlock.setEditable(false);
 		txtInfoBlock.setVisible(false);
@@ -97,8 +98,10 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginTop = layout.marginLeft = layout.marginRight = layout.marginBottom = 0;
 		shell.setLayout(layout);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		shell.setLayoutData(gd);
 		
-		ToolBar bar = new ToolBar(shell, SWT.FLAT);
+		ToolBar bar = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
 		loadToolItem = new ToolItem(bar, SWT.PUSH);
 		loadToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_LOAD_OUTLINE));
 		loadToolItem.setText(IProtectorConstants.TXT_LOAD_RECORD_ITEM);
@@ -108,7 +111,16 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-				controller.loadAllData();
+				Runnable load = new Runnable() {
+
+					@Override
+					public void run()
+					{
+						controller.loadAllData();
+					}
+				};
+				
+				display.asyncExec(load);
 			}
 		});
 		

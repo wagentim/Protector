@@ -107,6 +107,7 @@ public class TableListener extends CellEditingListener
 			cell = new CellIndex(row, 1);
 			return getTable().getItem(row);
 		}
+		
 		return null;
 	}
 
@@ -145,11 +146,9 @@ public class TableListener extends CellEditingListener
 			}
 			else if( text.contentEquals(IConstants.TXT_COPY) )
 			{
-				sendCopyMessage();
 			}
 			else if( text.contentEquals(IConstants.TXT_PASTE) )
 			{
-				sendPasteMessage();
 			}
 		}
 		else if(event.getSource() instanceof Table)
@@ -160,32 +159,11 @@ public class TableListener extends CellEditingListener
 		}
 	}
 	
-	private void sendCopyMessage()
-	{
-		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_COPY_PARAMETER, null);
-	}
-	
-	private void sendPasteMessage()
-	{
-		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_PASTE_PARAMETER, null);
-	}
-
 	@Override
 	protected CellIndex getCell()
 	{
 		return cell;
 	}
 
-	@Override
-	protected void keyCopyPressed()
-	{
-		sendCopyMessage();
-	}
-
-	@Override
-	protected void keyPastePressed()
-	{
-		sendPasteMessage();
-	}
 
 }
