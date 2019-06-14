@@ -19,6 +19,7 @@ import de.wagentim.protector.db.SqliteDBController;
 import de.wagentim.protector.entity.CellIndex;
 import de.wagentim.protector.entity.Record;
 import de.wagentim.protector.entity.RecordItem;
+import de.wagentim.protector.ui.IStatusBarUpdate;
 
 public class ProtectorController
 {
@@ -30,10 +31,12 @@ public class ProtectorController
 	private Map<Integer, List<RecordItem>> items = Collections.emptyMap();
 	private final Logger logger = LoggerFactory.getLogger(ProtectorController.class);
 	private final Collection<Record> showSearchRecords = new ArrayList<Record>();
+	private final IStatusBarUpdate statusbar;
 	
-	public ProtectorController()
+	public ProtectorController(IStatusBarUpdate statusbar)
 	{
 		dbController = new SqliteDBController();
+		this.statusbar = statusbar;
 	}
 	
 	public void loadAllData()
@@ -64,6 +67,8 @@ public class ProtectorController
 		}
 		
 		ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_DATA_LOADED, records.values());
+		
+		statusbar.statusbarUpdate("Total Items: " + records.size());
 	}
 	
 	public Collection<Record> getAllRecords()

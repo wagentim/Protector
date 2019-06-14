@@ -33,12 +33,12 @@ public class ProtectorMainScreen extends Composite implements IActionListener
 	private ToolItem loadToolItem;
 	private Display display;
 	
-	public ProtectorMainScreen(Composite parent, int style, final ImageRegister imageRegister)
+	public ProtectorMainScreen(Composite parent, int style, final ImageRegister imageRegister, IStatusBarUpdate statusbar)
 	{
 		super(parent, style);
 		this.imageRegister = imageRegister;
 		display = parent.getDisplay();
-		controller = new ProtectorController();
+		controller = new ProtectorController(statusbar);
 		initMainScreen(this);
 		initMainComponents(this);
 		initKeyListener();
