@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.ToolItem;
 import de.wagentim.common.IActionListener;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
+import de.wagentim.common.ui.IStatusBarUpdate;
 import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.IProtectorConstants;
 import de.wagentim.protector.common.ProtectorActionManager;

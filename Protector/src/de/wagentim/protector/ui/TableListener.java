@@ -16,10 +16,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import de.wagentim.common.IConstants;
+import de.wagentim.common.ui.CellIndex;
 import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.ProtectorController;
-import de.wagentim.protector.entity.CellIndex;
 import de.wagentim.protector.entity.RecordItem;
 
 public class TableListener extends CellEditingListener

@@ -11,15 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.wagentim.common.IDManager;
+import de.wagentim.common.ui.CellIndex;
+import de.wagentim.common.ui.IStatusBarUpdate;
 import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.IProtectorConstants;
 import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.db.IDBController;
 import de.wagentim.protector.db.SqliteDBController;
-import de.wagentim.protector.entity.CellIndex;
 import de.wagentim.protector.entity.Record;
 import de.wagentim.protector.entity.RecordItem;
-import de.wagentim.protector.ui.IStatusBarUpdate;
 
 public class ProtectorController
 {
