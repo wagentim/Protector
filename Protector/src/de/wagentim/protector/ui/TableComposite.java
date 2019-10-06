@@ -70,26 +70,26 @@ public class TableComposite extends AbstractComposite
 		tableComposite.setLayout(layout);
 		tableComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		ToolBar bar = new ToolBar(tableComposite, SWT.FLAT);
-		bar.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
-		addToolItem = new ToolItem(bar, SWT.PUSH);
-		addToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
-		addToolItem.addSelectionListener(new SelectionAdapter()
-		{
-			@Override
-			public void widgetSelected(SelectionEvent arg0)
-			{
-				RecordItem recordItem = controller.getNewRecordItem();
-				
-				if( recordItem == null )
-				{
-					return;
-				}
-				
-				ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_ADD_NEW_RECORD_ITEM, recordItem);
-			}
-		});
-		addToolItem.setEnabled(false);
+//		ToolBar bar = new ToolBar(tableComposite, SWT.FLAT);
+//		bar.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
+//		addToolItem = new ToolItem(bar, SWT.PUSH);
+//		addToolItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
+//		addToolItem.addSelectionListener(new SelectionAdapter()
+//		{
+//			@Override
+//			public void widgetSelected(SelectionEvent arg0)
+//			{
+//				RecordItem recordItem = controller.getNewRecordItem();
+//				
+//				if( recordItem == null )
+//				{
+//					return;
+//				}
+//				
+//				ProtectorActionManager.INSTANCE().sendAction(IProtectorActionType.ACTION_ADD_NEW_RECORD_ITEM, recordItem);
+//			}
+//		});
+//		addToolItem.setEnabled(false);
 		
 		
 		table = new Table(tableComposite, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
