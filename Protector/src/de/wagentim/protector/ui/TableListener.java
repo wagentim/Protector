@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-import de.wagentim.common.IConstants;
+import de.etas.tef.app.IGlobalConstants;
 import de.wagentim.common.ui.CellIndex;
 import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.ProtectorActionManager;
@@ -136,18 +136,18 @@ public class TableListener extends CellEditingListener
 		{
 			String text = ((MenuItem)event.getSource()).getText();
 			
-			if( text.contentEquals(IConstants.TXT_ADD) )
+			if( text.contentEquals(IGlobalConstants.TXT_ADD) )
 			{
-				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_MENU_ADD, IConstants.EMPTY_STRING);
+				ProtectorActionManager.actionManager.sendAction(IGlobalConstants.ACTION_MENU_ADD, IGlobalConstants.EMPTY_STRING);
 			}
-			else if( text.contentEquals(IConstants.TXT_DELETE) )
+			else if( text.contentEquals(IGlobalConstants.TXT_DELETE) )
 			{
-				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_MENU_DELETE, IConstants.EMPTY_STRING);
+				ProtectorActionManager.actionManager.sendAction(IGlobalConstants.ACTION_MENU_DELETE, IGlobalConstants.EMPTY_STRING);
 			}
-			else if( text.contentEquals(IConstants.TXT_COPY) )
+			else if( text.contentEquals(IGlobalConstants.TXT_COPY) )
 			{
 			}
-			else if( text.contentEquals(IConstants.TXT_PASTE) )
+			else if( text.contentEquals(IGlobalConstants.TXT_PASTE) )
 			{
 			}
 		}

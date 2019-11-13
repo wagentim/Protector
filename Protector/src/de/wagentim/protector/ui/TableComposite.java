@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-import de.wagentim.common.IConstants;
+import de.etas.tef.app.IGlobalConstants;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
 import de.wagentim.protector.common.IProtectorActionType;
@@ -97,7 +97,7 @@ public class TableComposite extends AbstractComposite
 		table.setHeaderVisible(true);
 		
 		gd = new GridData(GridData.FILL_BOTH);
-		gd.heightHint = IConstants.HEIGHT_HINT;
+		gd.heightHint = IGlobalConstants.HEIGHT_HINT;
 		table.setLayoutData(gd);
 		
 		tableListener = new TableListener(table, controller);
@@ -139,24 +139,24 @@ public class TableComposite extends AbstractComposite
 	            }
 	            
 	            MenuItem copyItem = new MenuItem(rightClickMenu, SWT.NONE);
-	            copyItem.setText(IConstants.TXT_COPY);
+	            copyItem.setText(IGlobalConstants.TXT_COPY);
 	            copyItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_COPY));
 	            copyItem.addSelectionListener(listener);
 	            
 	            MenuItem pasteItem = new MenuItem(rightClickMenu, SWT.NONE);
-	            pasteItem.setText(IConstants.TXT_PASTE);
+	            pasteItem.setText(IGlobalConstants.TXT_PASTE);
 	            pasteItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_PASTE));
 	            pasteItem.addSelectionListener(listener);
 	            
 	            new MenuItem(rightClickMenu, SWT.SEPARATOR);
 	            
 	            MenuItem newItem = new MenuItem(rightClickMenu, SWT.NONE);
-	            newItem.setText(IConstants.TXT_ADD);
+	            newItem.setText(IGlobalConstants.TXT_ADD);
 	            newItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_ADD));
 	            newItem.addSelectionListener(listener);
 	            
 	            MenuItem deleteItem = new MenuItem(rightClickMenu, SWT.NONE);
-	            deleteItem.setText(IConstants.TXT_DELETE);
+	            deleteItem.setText(IGlobalConstants.TXT_DELETE);
 	            deleteItem.setImage(imageRegister.getImage(IImageConstants.IMAGE_REMOVE));
 	            deleteItem.addSelectionListener(listener);
 	        }

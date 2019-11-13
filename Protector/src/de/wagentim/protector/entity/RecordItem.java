@@ -2,7 +2,7 @@ package de.wagentim.protector.entity;
 
 import java.io.Serializable;
 
-import de.wagentim.common.IConstants;
+import de.etas.tef.app.IGlobalConstants;
 
 public class RecordItem implements Serializable
 {
@@ -12,8 +12,8 @@ public class RecordItem implements Serializable
 	 */
 	private static final long serialVersionUID = 8554133090987357957L;
 	
-	private String key = IConstants.EMPTY_STRING;
-	private String value = IConstants.EMPTY_STRING;
+	private String key = IGlobalConstants.EMPTY_STRING;
+	private String value = IGlobalConstants.EMPTY_STRING;
 	private final int recordId;
 	private final int itemId;
 	

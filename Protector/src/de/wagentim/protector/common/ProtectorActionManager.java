@@ -1,6 +1,6 @@
 package de.wagentim.protector.common;
 
-import de.wagentim.common.AbstractActionManager;
+import de.etas.tef.app.AbstractActionManager;
 
 public class ProtectorActionManager extends AbstractActionManager
 {

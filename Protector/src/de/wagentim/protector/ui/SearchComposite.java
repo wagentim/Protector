@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import de.wagentim.common.IConstants;
+import de.etas.tef.app.IGlobalConstants;
 import de.wagentim.common.IImageConstants;
 import de.wagentim.common.ImageRegister;
 import de.wagentim.protector.common.IProtectorActionType;
@@ -88,7 +88,7 @@ public class SearchComposite extends AbstractComposite
 			@Override
 			public void mouseUp(MouseEvent arg0)
 			{
-				searchText.setText(IConstants.EMPTY_STRING);
+				searchText.setText(IGlobalConstants.EMPTY_STRING);
 				cancelImage.setVisible(false);
 			}
 
@@ -116,7 +116,7 @@ public class SearchComposite extends AbstractComposite
 	{
 		if( type == IProtectorActionType.ACTION_DATA_LOADED)
 		{
-			searchText.setText(IConstants.EMPTY_STRING);
+			searchText.setText(IGlobalConstants.EMPTY_STRING);
 		}
 		else if( type == IProtectorActionType.ACTION_FOCUS_SEARCH )
 		{

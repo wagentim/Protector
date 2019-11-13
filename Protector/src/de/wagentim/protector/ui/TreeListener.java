@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import de.wagentim.common.IConstants;
+import de.etas.tef.app.IGlobalConstants;
 import de.wagentim.common.ui.CellIndex;
 import de.wagentim.protector.common.IProtectorActionType;
 import de.wagentim.protector.common.ProtectorActionManager;
@@ -77,20 +77,20 @@ public class TreeListener extends CellEditingListener
 		{
 			String text = ((MenuItem)event.getSource()).getText();
 			
-			if( text.contentEquals(IConstants.TXT_ADD) )
+			if( text.contentEquals(IGlobalConstants.TXT_ADD) )
 			{
 				Record record = controller.addNewRecord();
 				ProtectorActionManager.actionManager.sendAction(IProtectorActionType.ACTION_ADD_NEW_RECORD, record);
 			}
-			else if( text.contentEquals(IConstants.TXT_DELETE) )
+			else if( text.contentEquals(IGlobalConstants.TXT_DELETE) )
 			{
-				ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_DELETE_BLOCK, getTree().getSelection()[0].getText());
+				ProtectorActionManager.actionManager.sendAction(IGlobalConstants.ACTION_DELETE_BLOCK, getTree().getSelection()[0].getText());
 			}
-			else if( text.contentEquals(IConstants.TXT_COPY) )
+			else if( text.contentEquals(IGlobalConstants.TXT_COPY) )
 			{
 				sendCopyMessage();
 			}
-			else if( text.contentEquals(IConstants.TXT_PASTE) )
+			else if( text.contentEquals(IGlobalConstants.TXT_PASTE) )
 			{
 				sendPasteMessage();
 			}
@@ -113,12 +113,12 @@ public class TreeListener extends CellEditingListener
 	
 	private void sendCopyMessage()
 	{
-		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_COPY_BLOCK, null);
+		ProtectorActionManager.actionManager.sendAction(IGlobalConstants.ACTION_COPY_BLOCK, null);
 	}
 	
 	private void sendPasteMessage()
 	{
-		ProtectorActionManager.actionManager.sendAction(IConstants.ACTION_PASTE_BLOCK, null);
+		ProtectorActionManager.actionManager.sendAction(IGlobalConstants.ACTION_PASTE_BLOCK, null);
 	}
 
 	@Override

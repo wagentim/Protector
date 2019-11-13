@@ -2,7 +2,7 @@ package de.wagentim.protector.ui;
 
 import org.eclipse.swt.widgets.Composite;
 
-import de.wagentim.common.IActionListener;
+import de.etas.tef.app.IActionListener;
 import de.wagentim.common.ImageRegister;
 import de.wagentim.protector.common.ProtectorActionManager;
 import de.wagentim.protector.controller.ProtectorController;
